@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import express,{Application,Request,Response,NextFunction } from 'express'
 import "reflect-metadata"
+import { errorHandler } from "../../interface-adapters/middlewares/error-handler.middleware";
 
 dotenv.config()
 export class Server {
@@ -32,8 +33,8 @@ export class Server {
     }
 
     private configureErrorHandling(): void {
-        this._app.use((err:any,req:Request,res:Response,next:NextFunction)=> {
-            res.status(err.status || 500).json({success: false, message:err.message})
+        this._app.use((err:Error,req:Request,res:Response,next:NextFunction)=> {
+            errorHandler(err,req,res,next);
         });
     }
 

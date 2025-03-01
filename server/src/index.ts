@@ -1,5 +1,5 @@
 import { Server } from "./infrastructure/http/server";
-import { connectDB } from "./shared/config/db";
+import { connectDB } from "./infrastructure/database/mongoDB/db";
 
 const PORT = process.env.PORT;
 

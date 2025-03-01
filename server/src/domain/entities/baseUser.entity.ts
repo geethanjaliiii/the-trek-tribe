@@ -1,15 +1,14 @@
 import { ObjectId } from "mongoose";
-import { TRole } from "../../shared/constants";
+import { TRole } from "../../shared/utils/constants";
 
-export interface IUser {
+export interface IBaseUser {
     _id?: ObjectId;
     fullName?: string;
     email: string;
     password: string;
-    role:TRole;
     profileImage?: string;
     phoneNumber?: string;
-    isBlocked?: string;
+    isActive?: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

@@ -1,7 +1,10 @@
-import { IUser } from "./baseUser.entity";
+import { UserRoles } from "../../shared/utils/constants";
+import { IBaseUser } from "./baseUser.entity";
 
-export interface IVendor extends IUser{
+export interface IVendor extends IBaseUser{
+    
     vendorId: string;
+    role: UserRoles.VENDOR;
     additionalContactNumber: string;
     businessName: string;
     businessDescription: string;

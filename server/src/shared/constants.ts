@@ -1,1 +1,0 @@
-export type TRole ='client' | 'admin' | "vendor"
