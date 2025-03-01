@@ -6,6 +6,9 @@ import rateLimit from "express-rate-limit";
 import express,{Application,Request,Response,NextFunction } from 'express'
 import "reflect-metadata"
 import { errorHandler } from "../../interface-adapters/middlewares/error-handler.middleware";
+import { AuthRoutes } from "../routes/auth/auth.route";
+import { PrivateRoutes } from "../routes/common/private.route";
+import { notFound } from "../../interface-adapters/middlewares/not-found.middleware";
 
 dotenv.config()
 export class Server {
@@ -30,6 +33,9 @@ export class Server {
         this._app.get('/',(req:Request,res:Response)=>{
             res.send("Trek tribe running...")
         })
+        this._app.use('/api/v_1/auth', new AuthRoutes().router);
+        this._app.use('/api/v_1/_pvt',new PrivateRoutes().router);
+        this._app.use('*',notFound);
     }
 
     private configureErrorHandling(): void {
