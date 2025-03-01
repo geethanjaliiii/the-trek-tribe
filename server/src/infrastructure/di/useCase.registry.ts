@@ -7,9 +7,9 @@ import { PasswordBcrypt } from "../security/password.bcrypt";
 
 export class UseCaseRegistry {
     static registerUseCases(): void {
-        // container.register<IRegisterUserUseCase>("IRegisterUserUseCase",{
-        //     useClass: RegisterUserUseCase
-        // });
+        container.register<IRegisterUserUseCase>("IRegisterUserUseCase",{
+            useClass: RegisterUserUseCase
+        });
 
         container.register<IBcrypt>('IOTPBcrypt',{
             useClass: OTPBcrypt
