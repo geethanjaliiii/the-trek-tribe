@@ -10,35 +10,35 @@ const destinations = [
   {
     id: 1,
     name: "Everest Base Camp, Nepal",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "/bg-images/adv.jpg?height=400&width=600",
     location: "Khumbu, Nepal",
     rating: 4.9,
   },
   {
     id: 2,
     name: "Markha Valley Trek, Ladakh",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "/bg-images/fourth.jpg?height=400&width=600",
     location: "Ladakh, India",
     rating: 4.8,
   },
   {
     id: 3,
     name: "Valley of Flowers, Uttarakhand",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "/bg-images/adv.jpg?height=400&width=600",
     location: "Uttarakhand, India",
     rating: 4.7,
   },
   {
     id: 4,
     name: "Hampta Pass, Himachal Pradesh",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "/bg-images/fourth.jpg?height=400&width=600",
     location: "Himachal Pradesh, India",
     rating: 4.6,
   },
   {
     id: 5,
     name: "Goechala Trek, Sikkim",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "/bg-images/adv.jpg?height=400&width=600",
     location: "Sikkim, India",
     rating: 4.8,
   },
@@ -83,7 +83,7 @@ export default function PopularDestinations() {
                 <Card className="overflow-hidden h-full">
                   <div className="relative h-64">
                     <Image
-                      src={destination.image || "/placeholder.svg"}
+                      src={destination.image || "/bg-images/news.jpg"}
                       alt={destination.name}
                       fill
                       className="object-cover"
