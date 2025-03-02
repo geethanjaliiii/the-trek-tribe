@@ -1,7 +1,11 @@
 import { container } from "tsyringe";
 import { DependencyInjection } from ".";
-import { RegisterUserController } from "../../interface-adapters/controllers/auth/register.controller";
+
+import { SendEmailController } from "../../interface-adapters/controllers/auth/send-email.controller";
+import { VerifyOTPController } from "../../interface-adapters/controllers/auth/verify-otp.controller";
 
 DependencyInjection.registerAll();
 
-export const registerUserController = container.resolve(RegisterUserController)
+export const sendEmailController = container.resolve(SendEmailController)
+
+export const verifyOTPController =container.resolve(VerifyOTPController);

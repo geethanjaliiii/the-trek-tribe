@@ -52,3 +52,5 @@ export const HTTP_STATUS = {
   VALIDATION_ERROR: "Validation error occurred.",
   MISSING_PARAMETERS: "Missing required parameters.",
   }
+
+  export const EMAIL_SUBJECT='"Verify Your Trek Tribe Account"'

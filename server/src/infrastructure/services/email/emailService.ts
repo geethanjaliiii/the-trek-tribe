@@ -1,13 +1,14 @@
 import { injectable } from "tsyringe";
 import { IEmailService } from "./IEmailService.interface";
 import nodemailer from 'nodemailer'
+
 @injectable()
 export class EmailService implements IEmailService {
     private transporter;
 
     constructor() {
         this.transporter =nodemailer.createTransport({
-            service: process.env.MAIL_HOST,
+            service: "gmail",
             auth: {
                 user: process.env.MAIL_USER,
                 pass: process.env.MAIL_PASS

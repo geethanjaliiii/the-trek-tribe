@@ -1,3 +1,3 @@
 export interface IVerifyOTPUseCase {
-    excecute(email: string, otp: string): Promise<void>;
+    execute(email: string, otp: string): Promise<void>;
 }

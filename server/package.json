@@ -18,9 +18,11 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",
+    "ioredis": "^5.5.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.2",
     "nodemailer": "^6.10.0",
+    "redis": "^4.7.0",
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.8.0",
     "zod": "^3.24.2"
