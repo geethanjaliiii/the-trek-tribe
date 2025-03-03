@@ -3,5 +3,5 @@ import { IBaseUser } from "./baseUser.entity";
 
 export interface IClient extends IBaseUser {
     clientId: string
-    role:UserRoles.CLIENT
+   // role:UserRoles.CLIENT
 }

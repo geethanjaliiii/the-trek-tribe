@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { IRegisterStrategy } from "../../interface/auth/IRegisterStrategy.interface";
 import { IClientRepository } from "../../../domain/repositories/client/clientRepository.interface";
-import { IBcrypt } from "../../../infrastructure/security/interface/bcrypt.interface";
+import { IBcrypt } from "../../../infrastructure/services/security/interface/bcrypt.interface";
 import { IBaseUser } from "../../../domain/entities/baseUser.entity";
 import { IClient } from "../../../domain/entities/client.entity";
 import { ClientDTO, UserDTO } from "../../../shared/dtos/user.dto";
@@ -11,7 +11,7 @@ import {
   HTTP_STATUS,
   UserRoles,
 } from "../../../shared/utils/constants";
-import { generateRandomUUID } from "../../../infrastructure/security/randomId";
+import { generateRandomUUID } from "../../../infrastructure/services/security/randomId";
 
 @injectable()
 export class ClientRegisterStrategy implements IRegisterStrategy {
@@ -20,7 +20,7 @@ export class ClientRegisterStrategy implements IRegisterStrategy {
     @inject("IPasswordBcrypt") private passwordBcrypt: IBcrypt
   ) {}
 
-  async register(user: UserDTO): Promise<void> {
+  async register(user: UserDTO): Promise<IClient |void> {
     if (user.role !== "client") {
       throw new CustomError(
         "Invalid role for client registration",
@@ -36,7 +36,7 @@ export class ClientRegisterStrategy implements IRegisterStrategy {
       : "";
 
     const clientId = generateRandomUUID();
-    await this.clientRepository.save({
+   return await this.clientRepository.save({
       fullName,
       email,
       password: hashedPassword,

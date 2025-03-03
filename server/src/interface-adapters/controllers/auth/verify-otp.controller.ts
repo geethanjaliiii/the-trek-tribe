@@ -10,17 +10,23 @@ export class VerifyOTPController {
 
   async handle(req: Request, res: Response): Promise<void> {
     try {
+      console.log('otp',req.body);
       const { email, otp } = req.body;
       if (!email || !otp) {
         throw new CustomError(ERROR_MESSAGES.VALIDATION_ERROR, HTTP_STATUS.BAD_REQUEST);
       }
-
+       
+       
       await this.verifyOTPUseCase.execute(email, otp);
-      res.status(HTTP_STATUS.CREATED).json({
+      console.log('hii');
+      
+      res.status(HTTP_STATUS.OK).json({
         success: true,
-        message: SUCCESS_MESSAGES.REGISTRATION_SUCCESS,
+        message: SUCCESS_MESSAGES.OPERATION_SUCCESS,
       });
     } catch (error) {
+      console.error('error in veriify otp',error);
+      
       if (error instanceof CustomError) {
         res.status(error.statusCode).json({ success: false, message: error.message });
         return;

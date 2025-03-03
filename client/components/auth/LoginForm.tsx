@@ -1,6 +1,6 @@
 'use client';
 import { RootState } from '@/lib/store';
-import { TRoles } from '@/shared/constants';
+import { TRoles, UserRoles } from '@/shared/constants';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -103,7 +103,7 @@ function LoginForm({role}:LoginFormProps) {
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
           Don’t have an account?{' '}
-          <Link href="/signup" className="font-semibold text-[#2D6A4F] hover:text-[#1B4332]">
+          <Link href={role===UserRoles.CLIENT?'/signup':'/vendor/register'} className="font-semibold text-[#2D6A4F] hover:text-[#1B4332]">
             Sign up
           </Link>
         </p>

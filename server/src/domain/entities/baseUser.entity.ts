@@ -7,6 +7,7 @@ export interface IBaseUser {
     email: string;
     password: string;
     profileImage?: string;
+    role:TRole;
     phoneNumber?: string;
     isActive?: boolean;
     createdAt: Date;

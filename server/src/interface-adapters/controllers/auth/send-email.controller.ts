@@ -6,19 +6,20 @@ import { userSchemas } from "../../validations/auth/user-signup-validation.schem
 import { ERROR_MESSAGES, HTTP_STATUS, SUCCESS_MESSAGES, UserRoles } from "../../../shared/utils/constants";
 import { ZodError } from "zod";
 import { CustomError } from "../../../shared/utils/CustomError";
+import { SendEmailUsecase } from "../../../usecases/auth/send-email.usecase";
+import { ISendEmailUseCase } from "../../../usecases/interface/auth/ISendEmailUsecase.interface";
 
 @injectable()
 export class SendEmailController{
   constructor(
-    @inject("IRegisterUserUseCase")
-    private registerUserUseCase: IRegisterUserUseCase
+   @inject("ISendEmailUseCase") private sendEmailUseCase :ISendEmailUseCase
   ) {}
 
   async handle(req:Request, res:Response): Promise<void> {
     try {
-        const {role} = req.body as UserDTO;
+        const {role, email} = req.body as UserDTO;
         
-        console.log(role)
+        console.log(req.body, 'email controller response')
         const schema =userSchemas[role as keyof typeof userSchemas]
         if(!schema) {
           res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -27,10 +28,8 @@ export class SendEmailController{
           })
           return;
         }
-
-        const validatedData = schema.parse(req.body) as UserDTO
-
-        await this.registerUserUseCase.execute(validatedData);
+        schema.parse(req.body);
+        await this.sendEmailUseCase.execute(email);
 
         res.status(HTTP_STATUS.OK).json({
           success: true,
@@ -56,7 +55,7 @@ export class SendEmailController{
           })
           return;
         }
-        console.error('Error in register',error)
+        console.error('Error in sending email',error)
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({success:false, message: ERROR_MESSAGES.SERVER_ERROR})
     }
   }

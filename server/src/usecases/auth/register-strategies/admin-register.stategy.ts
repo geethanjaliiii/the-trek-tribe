@@ -3,13 +3,14 @@ import { IAdminRepository } from "../../../domain/repositories/admin/adminReposi
 import { IRegisterStrategy } from "../../interface/auth/IRegisterStrategy.interface";
 import { IBaseUser } from "../../../domain/entities/baseUser.entity";
 import { AdminDTO, UserDTO } from "../../../shared/dtos/user.dto";
-import { IBcrypt } from "../../../infrastructure/security/interface/bcrypt.interface";
+import { IBcrypt } from "../../../infrastructure/services/security/interface/bcrypt.interface";
 import { CustomError } from "../../../shared/utils/CustomError";
 import {
   ERROR_MESSAGES,
   HTTP_STATUS,
   UserRoles,
 } from "../../../shared/utils/constants";
+import { IAdmin } from "../../../domain/entities/admin.entity";
 
 @injectable()
 export class AdminRegisterStrategy implements IRegisterStrategy {
@@ -17,7 +18,7 @@ export class AdminRegisterStrategy implements IRegisterStrategy {
     @inject("IAdminRepository") private adminRepository: IAdminRepository,
     @inject("IPasswordBcrypt") private PasswordBcrypt: IBcrypt
   ) {}
-  async register(user: UserDTO): Promise<void> {
+  async register(user: UserDTO): Promise<IAdmin|void> {
     if (user.role != "admin") {
       throw new CustomError(
         "Invalid role for admin registration",
@@ -32,7 +33,7 @@ export class AdminRegisterStrategy implements IRegisterStrategy {
     const { email, password } = user as AdminDTO;
     const hashedPassword = await this.PasswordBcrypt.hash(password);
 
-    await this.adminRepository.save({
+    return await this.adminRepository.save({
       email,
       password: hashedPassword,
       role: UserRoles.ADMIN,

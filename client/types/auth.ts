@@ -1,8 +1,8 @@
 export interface SignupFormValues{
-    fullName: string
-    email:string
-    password:string
-    confirmPassword:string
+    fullName: string;
+    email:string;
+    password:string;
+    confirmPassword: string;
 }
 
 export interface LoginFormValues {
@@ -14,14 +14,25 @@ export interface OTPFormValues {
     otp: string;
 }
 
+export interface ClientSignupValues {
+    fullName?:string;
+    email:string;
+    password: string;
+    role:'client'
+}
+export interface OTPVerifyResponse {
+    message: string;
+    verified: boolean;
+  }
 export interface User {
     _id: string;
     fullName: string;
     email: string;
-    role: 'admin' | 'vendor' | 'client';
+    role: 'admin' | 'vendor' | 'client' |'super_admin';
 }
 
 export interface AuthResponse {
+    message: string; 
     user: User;
 }
 

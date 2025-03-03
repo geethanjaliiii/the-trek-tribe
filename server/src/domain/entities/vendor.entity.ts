@@ -4,7 +4,7 @@ import { IBaseUser } from "./baseUser.entity";
 export interface IVendor extends IBaseUser{
     
     vendorId: string;
-    role: UserRoles.VENDOR;
+  //  role: UserRoles.VENDOR;
     additionalContactNumber: string;
     businessName: string;
     businessDescription: string;

@@ -2,9 +2,9 @@ import { container } from "tsyringe";
 import { IRegisterUserUseCase } from "../../usecases/interface/auth/IRegisterUserUseCase.interface";
 import { RegisterUserUseCase } from "../../usecases/auth/register-user.usecase";
 
-import { IBcrypt } from "../security/interface/bcrypt.interface";
-import { OTPBcrypt } from "../security/otp.bcrypt";
-import { PasswordBcrypt } from "../security/password.bcrypt";
+import { IBcrypt } from "../services/security/interface/bcrypt.interface";
+import { OTPBcrypt } from "../services/security/otp.bcrypt";
+import { PasswordBcrypt } from "../services/security/password.bcrypt";
 
 import { IEmailService } from "../services/email/IEmailService.interface";
 import { EmailService } from "../services/email/emailService";
@@ -16,6 +16,14 @@ import { IRegisterStrategy } from "../../usecases/interface/auth/IRegisterStrate
 import { ClientRegisterStrategy } from "../../usecases/auth/register-strategies/client-register.stategy";
 import { AdminRegisterStrategy } from "../../usecases/auth/register-strategies/admin-register.stategy";
 import { VendorRegisterStrategy } from "../../usecases/auth/register-strategies/vendor-register.stategy";
+import { ISendEmailUseCase } from "../../usecases/interface/auth/ISendEmailUsecase.interface";
+import { SendEmailUsecase } from "../../usecases/auth/send-email.usecase";
+import { ICheckUserExistanceService } from "../services/auth/ICheckUserExistance.interface";
+import { CheckUserExistance } from "../services/auth/checkUserExistance.service";
+import { IGenerateTokenUseCase } from "../../usecases/interface/auth/IGenerateTokenUsecase.interface";
+import { GenerateTokenUseCase } from "../../usecases/auth/generate-token.useCase";
+import { IJWTService } from "../services/jwt/IJWTService.interface";
+import { JWTService } from "../services/jwt/JWTService";
 
 export class UseCaseRegistry {
     static registerUseCases(): void {
@@ -53,6 +61,22 @@ export class UseCaseRegistry {
 
         container.register<IRegisterStrategy>("AdminRegisterStrategy",{
             useClass: AdminRegisterStrategy
+        });
+
+        container.register<ISendEmailUseCase>("ISendEmailUseCase",{
+            useClass: SendEmailUsecase
+        })
+
+        container.register<ICheckUserExistanceService>("ICheckUserExistanceService",{
+            useClass: CheckUserExistance
+        })
+
+        container.register<IGenerateTokenUseCase>("IGenerateTokenUseCase",{
+            useClass: GenerateTokenUseCase
+        })
+
+        container.register<IJWTService>("IJWTService",{
+            useClass:JWTService
         })
 
     }

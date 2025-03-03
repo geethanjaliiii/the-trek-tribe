@@ -1,24 +1,24 @@
 "use client"
 import { useVerifyOTPMutation } from "@/features/api/auth/apiAuthSlice";
-import { loginSuccess } from "@/features/auth/authSlice";
 import { otpSchema } from "@/schemas/auth/otpSchema";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { log } from "util";
 
 interface OTPModalProps {
   isOpen: boolean;
   onClose: () => void;
-  tempId: string;
+  email: string ;
+  onVerified?: ()=>void;
 }
 
-function OTPModal({ isOpen, onClose, tempId }: OTPModalProps) {
-  const [verifyOTP] = useVerifyOTPMutation();
-  const dispatch = useDispatch();
+function OTPModal({ isOpen, onClose, email ,onVerified}: OTPModalProps) {
+ 
+  const [verifyOTP,{isLoading}]=useVerifyOTPMutation()
   const router = useRouter();
 
   const formik = useFormik({
@@ -26,12 +26,15 @@ function OTPModal({ isOpen, onClose, tempId }: OTPModalProps) {
     validationSchema: otpSchema,
     onSubmit: async (values) => {
       try {
-        const response = await verifyOTP({ otp: values.otp, tempId }).unwrap(); //@remarks — If you need to access the error or success payload immediately after a mutation, you can chain .unwrap().
-        dispatch(loginSuccess(response.user));
+        const response= await verifyOTP({ otp: values.otp, email }).unwrap(); //@remarks — If you need to access the error or success payload immediately after a mutation, you can chain .unwrap().
+       console.log(response,'verify otp');
+       
         toast.success("OTP verified successfully!");
         onClose();
-        router.push("/");
+        if(onVerified) onVerified()
       } catch (error) {
+    console.log('error verify',error);
+    
         toast.error('Invalid OTP. Please try again.')
       }
     },
@@ -60,9 +63,10 @@ function OTPModal({ isOpen, onClose, tempId }: OTPModalProps) {
         <div className="flex gap-2">
           <Button
             type="submit"
+            disabled={isLoading}
             className="h-12 w-full rounded-lg bg-[#2D6A4F] text-white hover:bg-[#1B4332]"
           >
-            Verify
+          {isLoading? 'Verifying..' :'Verify' }
           </Button>
           <Button
             type="button"

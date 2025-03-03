@@ -3,11 +3,12 @@ import { IRegisterStrategy } from "../../interface/auth/IRegisterStrategy.interf
 import { IVendorRepository } from "../../../domain/repositories/vendor/vendorRepository.interface";
 import { IBaseUser } from "../../../domain/entities/baseUser.entity";
 import { UserDTO, VendorDTO } from "../../../shared/dtos/user.dto";
-import { IBcrypt } from "../../../infrastructure/security/interface/bcrypt.interface";
+import { IBcrypt } from "../../../infrastructure/services/security/interface/bcrypt.interface";
 import { CustomError } from "../../../shared/utils/CustomError";
 import { ERROR_MESSAGES, HTTP_STATUS, UserRoles } from "../../../shared/utils/constants";
 import { VendorModel } from "../../../infrastructure/database/models/vendor.model";
-import { generateRandomUUID } from "../../../infrastructure/security/randomId";
+import { generateRandomUUID } from "../../../infrastructure/services/security/randomId";
+import { IVendor } from "../../../domain/entities/vendor.entity";
 
 @injectable()
 export class VendorRegisterStrategy implements IRegisterStrategy {
@@ -15,7 +16,7 @@ export class VendorRegisterStrategy implements IRegisterStrategy {
         @inject('IVendorRepository') private vendorRepository: IVendorRepository,
         @inject("IPasswordBcrypt") private passwordBcrypt: IBcrypt
     ){}
-    async register(user: UserDTO): Promise<IBaseUser | void> {
+    async register(user: UserDTO): Promise<IVendor | void> {
        if(user.role != 'vendor'){
         throw new CustomError('Invalid role for vendor registration',HTTP_STATUS.BAD_REQUEST)
        }
@@ -24,12 +25,12 @@ export class VendorRegisterStrategy implements IRegisterStrategy {
        if(existingVendor){
         throw new CustomError(ERROR_MESSAGES.EMAIL_EXISTS, HTTP_STATUS.CONFLICT)
        }
-       const {fullName, email, password} = user as VendorDTO
+       const {businessName, email, password} = user as VendorDTO
        const hashedPassword=password?await this.passwordBcrypt.hash(password):''
        const vendorId =generateRandomUUID();
 
        return await this.vendorRepository.save({
-         fullName,
+         businessName,
          email,
          password:hashedPassword,
          vendorId,

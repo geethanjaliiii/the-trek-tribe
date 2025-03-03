@@ -18,7 +18,8 @@ export interface ClientDTO {
 
 export interface VendorDTO {
     vendorId?: string;
-    fullName: string;
+    fullName?: string;
+    businessName: string;
     email: string;
     phoneNumber?: string;
     profileImage?: string;
