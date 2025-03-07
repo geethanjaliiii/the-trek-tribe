@@ -11,7 +11,7 @@ export const VendorSchema = new Schema<IVendorModel>(
     role: { type: String, default: UserRoles.VENDOR, required: true },
     profileImage: { type: String },
     phoneNumber: { type: String },
-    isActive: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: true },
     additionalContactNumber: { type: String },
     businessName: { type: String, required: true },
     businessDescription: { type: String },

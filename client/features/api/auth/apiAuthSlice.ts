@@ -1,4 +1,4 @@
-import { AuthResponse, ClientSignupValues, OTPFormValues, OTPVerifyResponse, SignupFormValues } from '@/types/auth';
+import { AuthResponse, ClientSignupValues, LoginFormValues, OTPFormValues, OTPVerifyResponse } from '@/types/auth';
 import {BaseQueryApi, BaseQueryFn, createApi, EndpointBuilder, EndpointDefinitions, fetchBaseQuery, QueryReturnValue} from '@reduxjs/toolkit/query/react'
 
 const apiUrl =process.env.NEXT_PUBLIC_API_URL
@@ -30,8 +30,15 @@ export const apiAuthSlice = createApi({
                 method:'POST',
                 body
             })
+        }),
+        login: builder.mutation<AuthResponse,LoginFormValues>({
+            query:(body)=>({
+                url:'/auth/login',
+                method:'POST',
+                body
+            })
         })
     })
 })
 
-export const {useRegisterMutation, useVerifyOTPMutation, useSendOtpMutation} =apiAuthSlice;
+export const {useRegisterMutation, useVerifyOTPMutation, useSendOtpMutation,useLoginMutation} =apiAuthSlice;

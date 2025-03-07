@@ -11,7 +11,7 @@ export const ClientSchema =new Schema<IClientModel>(
         role: {type: String, default: UserRoles.CLIENT, required: true},
         profileImage: {type: String},
         phoneNumber: {type: String},
-        isActive:{type: Boolean, default: false}
+        isActive:{type: Boolean, default: true}
     },
     { timestamps: true }
 ) 

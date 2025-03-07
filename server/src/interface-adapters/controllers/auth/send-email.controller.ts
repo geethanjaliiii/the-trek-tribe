@@ -35,6 +35,8 @@ export class SendEmailController{
           success: true,
           message: SUCCESS_MESSAGES.OTP_SEND_SUCCESS})
     } catch (error) {
+      console.log(error,'send otp error');
+      
         if(error instanceof ZodError) {
           const errors = error.errors.map((err)=>({
             message: err.message

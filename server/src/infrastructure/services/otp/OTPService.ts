@@ -4,39 +4,33 @@ import { IOTPService } from "./IOTPService.interface";
 import Redis from "ioredis";
 import dotenv from "dotenv";
 import {client} from '../../cache/redis.client'
+import { CustomError } from "../../../shared/utils/CustomError";
+import { HTTP_STATUS } from "../../../shared/utils/constants";
 dotenv.config();
 
 @injectable()
 export class OTPService implements IOTPService {
   private redis=client;
 
-  async generateOTP(email: string): Promise<string> {
+  async generateOTP(email: string): Promise<string > {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    await this.redis.setEx(`otp:${email}`, 600, otp); //30 min TTL
+    const cooldownKey = `cooldown:${email}`;
+    const cooldown = await this.redis.get(cooldownKey);
+    if(cooldown){
+   throw new CustomError("Please wait before requesting a new OTP",429)
+    }
+    await this.redis.set(`otp:${email}`, otp, {EX: 300}); //expires in 5 min
+    await this.redis.set(cooldownKey, "active", { EX: 30 }); // 30-sec cooldown
     return otp;
   }
 
   async verifyOTP(email: string, otp: string): Promise<boolean> {
     const storedOTP = await this.redis.get(`otp:${email}`);
-    if(!storedOTP || storedOTP!==otp) {
-        await this.redis.del(`otp:${email}`);
-        await this.redis.del(`user:${email}`);
+    if(!storedOTP || storedOTP!==otp) {//if TTL exceeded stored otp will be null
         return false;
     }
+    await this.redis.del(`otp:${email}`)
     return true
   }
 
-  async storePendingUser(email: string, user: UserDTO): Promise<void> {
-    await this.redis.setEx(`user:${email}`, 600, JSON.stringify(user));
-  }
-
-  async getPendingUser(email: string): Promise<UserDTO | undefined> {
-   const userData = await this.redis.get(`user:${email}`);
-   return userData?JSON.parse(userData): undefined
-  }
-
-  async clearPendingUser(email: string): Promise<void> {
-    await this.redis.del(`otp:${email}`)
-    await this.redis.del(`user:${email}`)
-  }
 }

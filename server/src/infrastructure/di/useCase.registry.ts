@@ -24,6 +24,13 @@ import { IGenerateTokenUseCase } from "../../usecases/interface/auth/IGenerateTo
 import { GenerateTokenUseCase } from "../../usecases/auth/generate-token.useCase";
 import { IJWTService } from "../services/jwt/IJWTService.interface";
 import { JWTService } from "../services/jwt/JWTService";
+import { ILoginStrategy } from "../../usecases/interface/auth/ILoginStrategy.interface";
+import { AdminLoginStrategy } from "../../usecases/auth/login-strategies/admin-login.strategy";
+import { VendorLoginStrategy } from "../../usecases/auth/login-strategies/vendor-login.strategy"; 
+import { kMaxLength } from "buffer";
+import { ClientLoginStrategy } from "../../usecases/auth/login-strategies/client-login.strategy"; 
+import { LoginUserUseCase } from "../../usecases/auth/login-user.usecase";
+import { ILoginUserUseCase } from "../../usecases/interface/auth/ILoginUserUsecase.interface";
 
 export class UseCaseRegistry {
     static registerUseCases(): void {
@@ -34,6 +41,10 @@ export class UseCaseRegistry {
         container.register<IVerifyOTPUseCase>("IVerifyOTPUseCase", {
             useClass: VerifyOTPUseCase
         });
+
+        container.register<ILoginUserUseCase>("ILoginUserUseCase",{
+            useClass: LoginUserUseCase
+        })
 
         container.register<IBcrypt>('IOTPBcrypt',{
             useClass: OTPBcrypt
@@ -77,6 +88,22 @@ export class UseCaseRegistry {
 
         container.register<IJWTService>("IJWTService",{
             useClass:JWTService
+        })
+       
+        container.register<ILoginStrategy>("AdminLoginStrategy",{
+            useClass: AdminLoginStrategy
+        });
+
+        container.register<ILoginStrategy>('VendorLoginStrategy',{
+            useClass:VendorLoginStrategy
+        });
+
+        container.register<ILoginStrategy>("ClientLoginStrategy",{
+            useClass:ClientLoginStrategy
+        });
+
+        container.register<ILoginUserUseCase>("ILoginUserUseCase",{
+            useClass:LoginUserUseCase
         })
 
     }

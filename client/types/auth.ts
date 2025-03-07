@@ -8,6 +8,7 @@ export interface SignupFormValues{
 export interface LoginFormValues {
     email: string;
     password: string;
+    role:'admin' | 'vendor' | 'client' |'super_admin';
 }
 
 export interface OTPFormValues {
@@ -21,8 +22,10 @@ export interface ClientSignupValues {
     role:'client'
 }
 export interface OTPVerifyResponse {
-    message: string;
-    verified: boolean;
+    data:{
+        message: string;
+        success: boolean;
+    }
   }
 export interface User {
     _id: string;
@@ -32,15 +35,16 @@ export interface User {
 }
 
 export interface AuthResponse {
+    data: any;
     message: string; 
     user: User;
 }
 
 export interface AuthState {
-    user: User | null;
+    userInfo: User | null;
     isAuthenticated: boolean;
-    loading: boolean;
-    error: string | null;
+    // loading: boolean;
+    // error: string | null;
 }
 export interface SocialAuthProvider {
     name: "google"

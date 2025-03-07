@@ -13,6 +13,7 @@ import { ZodError } from "zod";
 import { IBaseUser } from "../../../domain/entities/baseUser.entity";
 import { GenerateTokenUseCase } from "../../../usecases/auth/generate-token.useCase";
 import { IGenerateTokenUseCase } from "../../../usecases/interface/auth/IGenerateTokenUsecase.interface";
+import { setAuthCookies } from "../../../shared/utils/cookieHelper";
 
 @injectable()
 export class RegisterUserController {
@@ -39,18 +40,33 @@ export class RegisterUserController {
       if (!user || !user._id || !user.email || !user.role) {
         throw new Error("User ID, email, or role is missing");
       }
-      res.status(HTTP_STATUS.CREATED).json({
-        success: true,
-        message: SUCCESS_MESSAGES.REGISTRATION_SUCCESS,
-      });
-
+    
       const userId = user._id.toString();
       const tokens = await this.generateTokenUseCase.excecute(
         userId,
         user.email,
         user.role
       );
+      const accessTokenName = `${user.role}_access_token`;
+      const refreshTokenName = `${user.role}_refresh_token`;
 
+      setAuthCookies(
+        res,
+        tokens.accessToken,
+        tokens.refreshToken,
+        accessTokenName,
+        refreshTokenName
+      );
+
+      res.status(HTTP_STATUS.CREATED).json({
+        success: true,
+        message: SUCCESS_MESSAGES.REGISTRATION_SUCCESS,
+        user: {
+          fullName: user.fullName,
+          email: user.email,
+          role: user.role
+        }
+      });
 
     } catch (error) {
       console.log("error in reg", error);

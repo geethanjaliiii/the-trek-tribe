@@ -19,13 +19,5 @@ export class VerifyOTPUseCase implements IVerifyOTPUseCase {
             throw new CustomError("Invalid or expired OTP",HTTP_STATUS.BAD_REQUEST)
         }
        console.log('validity',isValid);
-       
-        // const user = await this.otpService.getPendingUser(email);
-        // console.log(user,'pending users');
-        
-        // if(!user) {
-        //     throw new CustomError('No pending users found', HTTP_STATUS.NOT_FOUND);
-        // }
-        // await this.otpService.clearPendingUser(email);
     }
 }

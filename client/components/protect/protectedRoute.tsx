@@ -12,18 +12,18 @@ interface ProtectedRouteProps {
 
 function protectedRoute({children, allowedRoles}:ProtectedRouteProps) {
     const router =useRouter();
-    const {isAuthenticated , user} = useSelector((state: RootState)=> state.auth);
+    const {isAuthenticated , userInfo} = useSelector((state: RootState)=> state.auth);
     const [isLoading, setIsoading]= useState(false)
 
     useEffect(()=>{
         if(!isAuthenticated){
             router.push(`/${allowedRoles?.[0]===UserRoles.CLIENT?'':allowedRoles?.[0]} ||''/login`)
-        } else if (allowedRoles && user?.role && !allowedRoles.includes(user.role)){
+        } else if (allowedRoles && userInfo?.role && !allowedRoles.includes(userInfo.role)){
             router.push('/')
         }
-    },[isAuthenticated, user, allowedRoles, router]);
+    },[isAuthenticated, userInfo, allowedRoles, router]);
 
-    if(!isAuthenticated || (allowedRoles && user?.role && !allowedRoles.includes(user.role))){
+    if(!isAuthenticated || (allowedRoles && userInfo?.role && !allowedRoles.includes(userInfo.role))){
         return null
     }
   return (

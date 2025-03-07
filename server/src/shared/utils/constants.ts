@@ -36,6 +36,7 @@ export const HTTP_STATUS = {
 
   export const ERROR_MESSAGES = {
     WRONG_ID: "Wrong ID",
+    AUTH_TOKEN_MISSING:'Token missing',
   TOKEN_EXPIRED: "Token Expired",
   EMAIL_NOT_FOUND: "Email Not Found",
   FORBIDDEN:
@@ -43,7 +44,7 @@ export const HTTP_STATUS = {
   BLOCKED: "Your account has been blocked.",
   NOT_ALLOWED: "You are not allowed",
   EMAIL_EXISTS: "Email Already Exists",
-  REQUEST_NOT_FOUND: "Category Request Not Found",
+  REQUEST_NOT_FOUND: "Request Not Found",
   INVALID_TOKEN: "Invalid token",
   INVALID_CREDENTIALS: "Invalid credentials provided.",
   USER_NOT_FOUND: "User not found.",
