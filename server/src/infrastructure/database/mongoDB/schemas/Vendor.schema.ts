@@ -13,7 +13,7 @@ export const VendorSchema = new Schema<IVendorModel>(
     phoneNumber: { type: String },
     isActive: { type: Boolean, default: true },
     additionalContactNumber: { type: String },
-    businessName: { type: String, required: true },
+    businessName: { type: String},
     businessDescription: { type: String },
     registrationNumber: { type: String },
     businessType: { type: String },

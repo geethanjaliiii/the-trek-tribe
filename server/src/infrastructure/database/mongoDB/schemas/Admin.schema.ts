@@ -6,8 +6,17 @@ export const AdminSchema = new Schema<IAdminModel>(
   {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, default: UserRoles.ADMIN },
-    isActive:{type: Boolean, default: true}
+    role: {
+      type: String,
+      enum: [UserRoles.ADMIN, UserRoles.SUPER_ADMIN],
+      default: UserRoles.ADMIN,
+    },
+    permissions: {
+      canManageClients: { type: Boolean, default: true },
+      canManageVendors: { type: Boolean, default: true },
+      canModifyAdmins: { type: Boolean, default: false },
+    },
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

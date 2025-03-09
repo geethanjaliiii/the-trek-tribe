@@ -25,13 +25,14 @@ export class VendorRegisterStrategy implements IRegisterStrategy {
        if(existingVendor){
         throw new CustomError(ERROR_MESSAGES.EMAIL_EXISTS, HTTP_STATUS.CONFLICT)
        }
-       const {businessName, email, password} = user as VendorDTO
+       const {fullName,phoneNumber, email, password} = user as VendorDTO
        const hashedPassword=password?await this.passwordBcrypt.hash(password):''
        const vendorId =generateRandomUUID();
 
        return await this.vendorRepository.save({
-         businessName,
+         fullName,
          email,
+         phoneNumber,
          password:hashedPassword,
          vendorId,
          role:UserRoles.VENDOR
