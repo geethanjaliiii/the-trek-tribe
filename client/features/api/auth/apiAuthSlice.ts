@@ -1,4 +1,4 @@
-import { AuthResponse, ClientSignupValues, LoginFormValues, OTPFormValues, OTPVerifyResponse } from '@/types/auth';
+import { AuthResponse, ClientSignupValues, LoginFormValues, OTPFormValues, OTPVerifyResponse, RegisterMutaionValues } from '@/types/auth';
 import {BaseQueryApi, BaseQueryFn, createApi, EndpointBuilder, EndpointDefinitions, fetchBaseQuery, QueryReturnValue} from '@reduxjs/toolkit/query/react'
 
 const apiUrl =process.env.NEXT_PUBLIC_API_URL
@@ -10,7 +10,7 @@ export const apiAuthSlice = createApi({
     }),
     endpoints:(builder) => ({
         //{message...}-return type,{email: string}-arg type
-        sendOtp: builder.mutation<{message: string; tempId: string}, ClientSignupValues>({
+        sendOtp: builder.mutation<{message: string; tempId: string}, RegisterMutaionValues>({
             query:(credentials) => ({
                 url: '/auth/send-otp',
                 method: 'POST',
@@ -24,7 +24,7 @@ export const apiAuthSlice = createApi({
                 body: {otp, email},
             })
         }),
-        register: builder.mutation<AuthResponse,ClientSignupValues>({
+        register: builder.mutation<AuthResponse,RegisterMutaionValues>({
             query:(body)=>({
                 url:'/auth/register',
                 method:'POST',

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
     return (
       <footer className="bg-[#0f172a] text-gray-300 py-12 px-4">
@@ -107,9 +109,9 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
-                  FAQs
-                </a>
+                <Link href="/business" className="hover:text-primary">
+                  Grow Your Business
+                </Link>
               </li>
               <li>
                 <a href="#" className="hover:text-primary">

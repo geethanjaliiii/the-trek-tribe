@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -10,4 +10,83 @@ body {
   :root {
     --radius: 0.5rem;
   }
+} */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 10% 98%;
+    --foreground: 24 10% 10%;
+
+    --card: 60 10% 98%;
+    --card-foreground: 24 10% 10%;
+
+    --popover: 60 10% 98%;
+    --popover-foreground: 24 10% 10%;
+
+    --primary: 82 30% 44%;
+    --primary-foreground: 60 10% 98%;
+
+    --secondary: 36 25% 57%;
+    --secondary-foreground: 24 10% 10%;
+
+    --muted: 60 5% 90%;
+    --muted-foreground: 24 5% 45%;
+
+    --accent: 82 30% 44%;
+    --accent-foreground: 60 10% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 10% 98%;
+
+    --border: 24 5% 85%;
+    --input: 24 5% 85%;
+    --ring: 82 30% 44%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar variables still intact */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-sm bg-white/10 border border-white/20;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-md;
+  }
+  
+  .animated-underline {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-olive after:transition-all after:duration-300 hover:after:w-full;
+  }
 }
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+

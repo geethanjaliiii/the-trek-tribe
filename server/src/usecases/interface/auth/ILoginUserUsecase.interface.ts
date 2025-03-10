@@ -1,6 +1,6 @@
 import { IBaseUser } from "../../../domain/entities/baseUser.entity";
-import { LoginUserDTO } from "../../../shared/dtos/user.dto";
+import { IUser, LoginUserDTO } from "../../../shared/dtos/user.dto";
 
 export interface ILoginUserUseCase {
-    execute(user: LoginUserDTO): Promise<void |Partial<IBaseUser>>
+    execute(user: LoginUserDTO): Promise<void |Partial<IUser>>
 }

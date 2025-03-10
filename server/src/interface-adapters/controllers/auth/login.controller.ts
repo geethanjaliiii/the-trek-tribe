@@ -11,6 +11,7 @@ import {
 import { setAuthCookies } from "../../../shared/utils/cookieHelper";
 import { ZodError } from "zod";
 import { CustomError } from "../../../shared/utils/CustomError";
+import { IVendor } from "../../../domain/entities/vendor.entity";
 
 @injectable()
 export class LoginController {
@@ -56,6 +57,7 @@ export class LoginController {
           fullName: user.fullName,
           email: user.email,
           role: user.role,
+          isVerified: (user as IVendor)?.isVerified || false
         },
       });
     } catch (error) {

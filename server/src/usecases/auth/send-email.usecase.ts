@@ -24,6 +24,8 @@ export class SendEmailUsecase implements ISendEmailUseCase {
     }
 
     const otp = await this.otpService.generateOTP(email);
+    console.log('vendor otp',otp);
+    
     await this.emailService.sendEmail(
       email,
       EMAIL_SUBJECT,

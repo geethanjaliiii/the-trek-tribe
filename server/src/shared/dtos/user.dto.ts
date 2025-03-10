@@ -1,3 +1,6 @@
+import { IAdmin } from "../../domain/entities/admin.entity";
+import { IClient } from "../../domain/entities/client.entity";
+import { IVendor } from "../../domain/entities/vendor.entity";
 import { TRole, UserRoles } from "../utils/constants";
 
 export interface AdminDTO {
@@ -34,3 +37,5 @@ export interface LoginUserDTO {
     password?: string;
     role: TRole;
 }
+
+export type IUser =IAdmin | IVendor | IClient

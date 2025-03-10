@@ -21,6 +21,16 @@ export interface ClientSignupValues {
     password: string;
     role:'client'
 }
+
+export interface VendorSignupValues {
+    fullName: string;
+    email:string;
+    phoneNumber:string;
+    password:string
+    role:'vendor'
+}
+
+export type RegisterMutaionValues =VendorSignupValues | ClientSignupValues
 export interface OTPVerifyResponse {
     data:{
         message: string;
@@ -31,6 +41,7 @@ export interface User {
     _id: string;
     fullName: string;
     email: string;
+    isVerified?:boolean;
     role: 'admin' | 'vendor' | 'client' |'super_admin';
 }
 

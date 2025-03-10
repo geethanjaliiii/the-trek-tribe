@@ -54,4 +54,6 @@ export const HTTP_STATUS = {
   MISSING_PARAMETERS: "Missing required parameters.",
   }
 
-  export const EMAIL_SUBJECT='"Verify Your Trek Tribe Account"'
+  export const EMAIL_SUBJECT='"Verify Your Trek Tribe Account"';
+
+  export const MAX_VERIFICATION_APPLY_COUNT= 3

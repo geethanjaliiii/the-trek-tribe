@@ -53,6 +53,9 @@ export default function Header() {
             <Link href="#contact" className="text-[#0f172a] hover:text-gray-600 transition-colors">
               Contact
             </Link>
+            <Link href="/business" className="text-[#0f172a] hover:text-gray-600 transition-colors">
+              Grow Your Business
+            </Link>
           </nav>
 
           <Link

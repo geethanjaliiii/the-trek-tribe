@@ -1,6 +1,6 @@
 import { IBaseUser } from "../../../domain/entities/baseUser.entity";
-import { LoginUserDTO } from "../../../shared/dtos/user.dto";
+import { IUser, LoginUserDTO } from "../../../shared/dtos/user.dto";
 
 export interface ILoginStrategy {
-    login(user: LoginUserDTO): Promise<IBaseUser | void>
+    login(user: LoginUserDTO): Promise<IUser | void>
 }

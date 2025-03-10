@@ -2,6 +2,7 @@ import { injectable } from "tsyringe";
 import { IVendor } from "../../../../domain/entities/vendor.entity";
 import { IVendorRepository } from "../../../../domain/repositories/vendor/vendorRepository.interface";
 import { VendorModel } from "../../models/vendor.model";
+import { ObjectId } from "mongoose";
 
 @injectable()
 export class VendorRepository implements IVendorRepository{
@@ -24,7 +25,7 @@ export class VendorRepository implements IVendorRepository{
    async findByIdAndUpdatePassword(id: string, password: string): Promise<void> {
          await VendorModel.findByIdAndUpdate(id,{password});
     }
-   async updateVendorProfileById(id: string, data: Partial<IVendor>): Promise<void> {
+   async updateVendorProfileById(id: ObjectId, data: Partial<IVendor>): Promise<void> {
         await VendorModel.findByIdAndUpdate(id,{$set: data})
     }
 

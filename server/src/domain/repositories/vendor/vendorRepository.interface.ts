@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { IVendor } from "../../entities/vendor.entity";
 
 export interface IVendorRepository {
@@ -16,7 +17,7 @@ export interface IVendorRepository {
   findByIdAndUpdatePassword(id: string, password: string): Promise<void>;
   
   updateVendorProfileById(
-    id: string,
+    id: ObjectId,
     data: Partial<IVendor>
   ): Promise<void>;
 }
