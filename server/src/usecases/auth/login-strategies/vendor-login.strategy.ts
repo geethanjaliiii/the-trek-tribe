@@ -7,6 +7,7 @@ import { IBcrypt } from "../../../infrastructure/services/security/interface/bcr
 import { CustomError } from "../../../shared/utils/CustomError";
 import { ERROR_MESSAGES, HTTP_STATUS } from "../../../shared/utils/constants";
 import { IVendorRepository } from "../../../domain/repositories/vendor/vendorRepository.interface";
+import { IVendor } from "../../../domain/entities/vendor.entity";
 
 @injectable()
 export class VendorLoginStrategy implements ILoginStrategy {
@@ -14,7 +15,7 @@ export class VendorLoginStrategy implements ILoginStrategy {
     @inject("IVendorRepository") private vendorRepo: IVendorRepository,
     @inject("IPasswordBcrypt") private passwordBcrypt: IBcrypt
   ) {}
-  async login(user: LoginUserDTO): Promise<IBaseUser | void> {
+  async login(user: LoginUserDTO): Promise<IVendor | void> {
     const { email, password } = user;
     if (!email || !password) {
       throw new CustomError(

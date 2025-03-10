@@ -6,6 +6,7 @@ import { IBcrypt } from "../../../infrastructure/services/security/interface/bcr
 import { IAdminRepository } from "../../../domain/repositories/admin/adminRepository.interface";
 import { CustomError } from "../../../shared/utils/CustomError";
 import { ERROR_MESSAGES, HTTP_STATUS } from "../../../shared/utils/constants";
+import { IAdmin } from "../../../domain/entities/admin.entity";
 
 @injectable()
 export class AdminLoginStrategy implements ILoginStrategy {
@@ -13,7 +14,7 @@ export class AdminLoginStrategy implements ILoginStrategy {
     @inject("IAdminRepository") private adminRepo: IAdminRepository,
     @inject("IPasswordBcrypt") private passwordBcrypt: IBcrypt
   ) {}
-  async login(user: LoginUserDTO): Promise<IBaseUser | void> {
+  async login(user: LoginUserDTO): Promise<IAdmin | void> {
     const { email, password } = user;
     if (!email || !password) {
       throw new CustomError(

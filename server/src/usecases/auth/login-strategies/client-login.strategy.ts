@@ -6,6 +6,7 @@ import { IClientRepository } from "../../../domain/repositories/client/clientRep
 import { IBcrypt } from "../../../infrastructure/services/security/interface/bcrypt.interface";
 import { CustomError } from "../../../shared/utils/CustomError";
 import { ERROR_MESSAGES, HTTP_STATUS } from "../../../shared/utils/constants";
+import { IClient } from "../../../domain/entities/client.entity";
 
 @injectable()
 export class ClientLoginStrategy implements ILoginStrategy {
@@ -13,7 +14,7 @@ export class ClientLoginStrategy implements ILoginStrategy {
     @inject("IClientRepository") private clientRepo: IClientRepository,
     @inject("IPasswordBcrypt") private passwordBcrypt: IBcrypt
   ) {}
-  async login(user: LoginUserDTO): Promise<IBaseUser | void> {
+  async login(user: LoginUserDTO): Promise<IClient | void> {
     const { email, password } = user;
     if (!email || !password) {
       throw new CustomError(

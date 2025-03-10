@@ -3,7 +3,7 @@ export interface VendorRegistrationDto {
     email:string;
     phoneNumber: string
      //  role: UserRoles.VENDOR;
-     additionalContactNumber: string;
+     additionalContactNumber?: string|null;
      businessName: string;
      businessDescription: string;
      registrationNumber: string;
@@ -12,7 +12,7 @@ export interface VendorRegistrationDto {
       // 🔹 Document Verification
      businessDocuments: string[];
      ownerIdProof: string;
-     businnessLogo:string;
+     businessLogo:string;
  
       // 🔹 Location & Contact Details
      address: string;
@@ -20,7 +20,7 @@ export interface VendorRegistrationDto {
      state: string;
      country: string;
      pincode: string;
-     website?: string;
+     website?: string|null;
      socialMediaLinks?: string[];
  
       

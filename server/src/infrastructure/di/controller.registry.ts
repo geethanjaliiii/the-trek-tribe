@@ -3,6 +3,7 @@ import { SendEmailController } from "../../interface-adapters/controllers/auth/s
 import { VerifyOTPController } from "../../interface-adapters/controllers/auth/verify-otp.controller";
 import { RegisterUserController } from "../../interface-adapters/controllers/auth/register.controller";
 import { LoginController } from "../../interface-adapters/controllers/auth/login.controller";
+import { RequestVerificationController } from "../../interface-adapters/controllers/verificationRequest/request-vendor-verification.controller";
 
 export class ControllerRegistry {
     static registerControllers(): void {
@@ -18,6 +19,9 @@ export class ControllerRegistry {
         })
         container.register("LoginController", {
             useClass:LoginController
+        })
+        container.register('RequestVerificationController',{
+            useClass:RequestVerificationController
         })
         //......
     }

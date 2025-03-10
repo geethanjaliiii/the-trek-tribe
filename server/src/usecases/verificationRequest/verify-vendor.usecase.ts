@@ -3,13 +3,13 @@ import { IRequestVerificationUsecase } from "../interface/vendor/IVerify-vendor-
 import { IVendorRepository } from "../../domain/repositories/vendor/vendorRepository.interface";
 import { IVerificationRequestRepository } from "../../domain/repositories/verificationRequest/verificatioReqRepository.interface";
 import { VendorRegistrationDto } from "../../shared/dtos/vendor.dto";
-import { ObjectId } from "mongoose";
 import {
   ERROR_MESSAGES,
   HTTP_STATUS,
   MAX_VERIFICATION_APPLY_COUNT,
 } from "../../shared/utils/constants";
 import { CustomError } from "../../shared/utils/CustomError";
+import { ObjectId } from "mongoose";
 
 @injectable()
 export class RequestVerificationUseCase implements IRequestVerificationUsecase {
@@ -42,7 +42,7 @@ export class RequestVerificationUseCase implements IRequestVerificationUsecase {
       });
     } else {
       await this.verificatonReqRepo.create({
-        vendorId: vendorId,
+        vendorId:vendorId,
         applyCount: 1,
         status: "pending",
         rejectReason: "",

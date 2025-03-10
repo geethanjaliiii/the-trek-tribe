@@ -16,13 +16,13 @@ export class VendorRepository implements IVendorRepository{
        ]) 
        return {user, total}
     }
-    async findById(id: string): Promise<IVendor | null> {
+    async findById(id: ObjectId): Promise<IVendor | null> {
       return await VendorModel.findById(id);
     }
    async findByEmail(email: string): Promise<IVendor | null> {
         return await VendorModel.findOne({email})
     }
-   async findByIdAndUpdatePassword(id: string, password: string): Promise<void> {
+   async findByIdAndUpdatePassword(id: ObjectId, password: string): Promise<void> {
          await VendorModel.findByIdAndUpdate(id,{password});
     }
    async updateVendorProfileById(id: ObjectId, data: Partial<IVendor>): Promise<void> {

@@ -10,11 +10,11 @@ export interface IVendorRepository {
     limit: number
   ): Promise<{ user: IVendor[] | []; total: number }>;
   
-  findById(id: string): Promise<IVendor | null>;
+  findById(id: ObjectId): Promise<IVendor | null>;
   
   findByEmail(email: string): Promise<IVendor | null>;
   
-  findByIdAndUpdatePassword(id: string, password: string): Promise<void>;
+  findByIdAndUpdatePassword(id: ObjectId, password: string): Promise<void>;
   
   updateVendorProfileById(
     id: ObjectId,

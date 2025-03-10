@@ -31,6 +31,8 @@ import { kMaxLength } from "buffer";
 import { ClientLoginStrategy } from "../../usecases/auth/login-strategies/client-login.strategy"; 
 import { LoginUserUseCase } from "../../usecases/auth/login-user.usecase";
 import { ILoginUserUseCase } from "../../usecases/interface/auth/ILoginUserUsecase.interface";
+import { IRequestVerificationUsecase } from "../../usecases/interface/vendor/IVerify-vendor-Usecase.interface";
+import { RequestVerificationUseCase } from "../../usecases/verificationRequest/verify-vendor.usecase";
 
 export class UseCaseRegistry {
     static registerUseCases(): void {
@@ -104,6 +106,10 @@ export class UseCaseRegistry {
 
         container.register<ILoginUserUseCase>("ILoginUserUseCase",{
             useClass:LoginUserUseCase
+        });
+
+        container.register<IRequestVerificationUsecase>("IRequestVerificationUsecase",{
+            useClass:RequestVerificationUseCase
         })
 
     }
