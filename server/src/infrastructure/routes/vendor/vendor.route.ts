@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { authorizeRole, verifyAuth } from "../../../interface-adapters/middlewares/authentication.middleware";
+import { authorizeRole, decodeToken, verifyAuth } from "../../../interface-adapters/middlewares/authentication.middleware";
 import { BaseRoute } from "../baseRoute";
-import { requestVerificationController } from "../../di/resolver";
+import { getVendorDetailsController, refreshTokenController, requestVerificationController } from "../../di/resolver";
 
 export default class VendorRoutes extends BaseRoute {
 
@@ -14,6 +14,19 @@ export default class VendorRoutes extends BaseRoute {
             authorizeRole(['vendor']),
             (req:Request,res:Response)=>
                 requestVerificationController.handle(req,res)
+        );
+        this.router.post('/vendor/refresh-token',
+            decodeToken,
+            (req:Request,res:Response)=>{
+                refreshTokenController.handle(req,res)
+            }
+        )
+        this.router.get('/vendor',
+            verifyAuth,
+            authorizeRole(['vendor']),
+            (req:Request,res:Response)=>{
+                getVendorDetailsController.handle(req,res)
+            }
         )
     }
 }

@@ -29,37 +29,37 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 const navItems = [
   {
     title: "Dashboard",
-    href: "/dashboard",
+    href: "/admin/dashboard",
     icon: LayoutDashboard,
   },
   {
     title: "Vendors",
-    href: "/dashboard/vendors",
+    href: "/admin/dashboard/vendors",
     icon: Briefcase,
   },
   {
     title: "Clients",
-    href: "/dashboard/clients",
+    href: "/admin/dashboard/clients",
     icon: Users,
   },
   {
     title: "Categories",
-    href: "/dashboard/categories",
+    href: "/admin/dashboard/categories",
     icon: Tag,
   },
   {
     title: "Locations",
-    href: "/dashboard/locations",
+    href: "/admin/dashboard/locations",
     icon: MapPin,
   },
   {
     title: "Analytics",
-    href: "/dashboard/analytics",
+    href: "/admin/dashboard/analytics",
     icon: BarChart3,
   },
   {
     title: "Settings",
-    href: "/dashboard/settings",
+    href: "/admin/dashboard/settings",
     icon: Settings,
   },
 ]
@@ -115,7 +115,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <SheetContent side="left" className="w-72">
               <div className="flex h-full flex-col">
                 <div className="flex items-center border-b px-6 py-4">
-                  <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+                  <Link href="/" className="flex items-center gap-2 font-semibold">
                     <Compass className="h-6 w-6" />
                     <span>TheTrekTribe</span>
                   </Link>
@@ -139,7 +139,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </SheetContent>
           </Sheet>
           <div className="flex items-center gap-2">
-            <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+            <Link href="/admin/dashboard" className="flex items-center gap-2 font-semibold">
               <Compass className="h-6 w-6 text-primary hidden md:block" />
               <span className="hidden md:inline-block">TheTrekTribe</span>
               <span className="md:hidden">TT</span>

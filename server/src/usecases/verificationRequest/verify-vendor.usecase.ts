@@ -10,6 +10,7 @@ import {
 } from "../../shared/utils/constants";
 import { CustomError } from "../../shared/utils/CustomError";
 import { ObjectId } from "mongoose";
+import { IVendor } from "../../domain/entities/vendor.entity";
 
 @injectable()
 export class RequestVerificationUseCase implements IRequestVerificationUsecase {
@@ -21,7 +22,7 @@ export class RequestVerificationUseCase implements IRequestVerificationUsecase {
 
   async execute(
     vendorId: ObjectId,
-    vendor: VendorRegistrationDto
+    vendor: Partial<IVendor>
   ): Promise<void> {
     await this.vendorRepo.updateVendorProfileById(vendorId, vendor);
     const existingRequest = await this.verificatonReqRepo.findByVendorId(

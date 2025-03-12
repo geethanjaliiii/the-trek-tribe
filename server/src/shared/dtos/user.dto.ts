@@ -22,7 +22,7 @@ export interface ClientDTO {
 export interface VendorDTO {
     vendorId?: string;
     fullName?: string;
-    businessName: string;
+    businessName?: string;
     email: string;
     phoneNumber?: string;
     profileImage?: string;

@@ -11,7 +11,6 @@ export const VendorSchema = new Schema<IVendorModel>(
     role: { type: String, default: UserRoles.VENDOR, required: true },
     profileImage: { type: String },
     phoneNumber: { type: String },
-    isActive: { type: Boolean, default: true },
     additionalContactNumber: { type: String },
     businessName: { type: String},
     businessDescription: { type: String },
@@ -19,7 +18,7 @@ export const VendorSchema = new Schema<IVendorModel>(
     businessType: { type: String },
     businessDocuments: { type: [String] },
     ownerIdProof: { type: String },
-    businnessLogo: { type: String },
+    businessLogo: { type: String },
     // Location & Contact Details
     address: { type: String },
     city: { type: String },
@@ -28,6 +27,12 @@ export const VendorSchema = new Schema<IVendorModel>(
     pincode: { type: String },
     website: { type: String },
     socialMediaLinks: { type: [String] },
+    status:{type: String, enum: [ 'active', 'blocked'],
+      default:'active'
+    },
+    verificationStatus:{type: String, enum: ['pending', 'approved', 'rejected'],
+      default:'pending'
+    },
     isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }

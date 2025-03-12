@@ -2,6 +2,7 @@ export interface VendorRegistrationDto {
     fullName:string;
     email:string;
     phoneNumber: string
+    password?:string |null
      //  role: UserRoles.VENDOR;
      additionalContactNumber?: string|null;
      businessName: string;
@@ -21,7 +22,7 @@ export interface VendorRegistrationDto {
      country: string;
      pincode: string;
      website?: string|null;
-     socialMediaLinks?: string[];
+     socialMediaLinks?: string[]|[];
  
       
 }

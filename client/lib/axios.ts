@@ -19,7 +19,7 @@ axiosInstance.interceptors.response.use(
         if(error.response?.status ===401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
-               await axios.post(`${apiUrl}/auth/refresh-token`,
+              await axios.post(`${apiUrl}/auth/refresh-token`,
                 {},
                 {withCredentials: true}
 

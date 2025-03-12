@@ -10,5 +10,6 @@ export interface IVerificationRequestRepository{
     findByVendorId(vendorId:ObjectId):Promise<IVerificationRequest | null>;
 
     update(requestId: ObjectId, updates: Partial<IVerificationRequest>):Promise<void>
-
+   
+    find(options?: { status?: string, limit?: number, offset?: number }):Promise<Partial<IVerificationRequest>[]>
 }

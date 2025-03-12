@@ -1,6 +1,6 @@
 import { injectable } from "tsyringe";
 import { IJWTService } from "./IJWTService.interface";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { config } from "../../../shared/config/config";
 import { HTTP_STATUS, UserRoles } from "../../../shared/utils/constants";
 import { CustomError } from "../../../shared/utils/CustomError";
@@ -39,4 +39,19 @@ export class JWTService implements IJWTService {
             throw new CustomError("Invalid refresh token", HTTP_STATUS.UNAUTHORIZED);
           }
     }
+    decodeAccessToken(token: string):JwtPayload | null{
+        try {
+            return jwt.decode(token) as JwtPayload
+        } catch (error) {
+            console.error("Access token verification failed:", error);
+            return null;
+        }
+    }
+    decodeRefreshToken(token: string):JwtPayload | null{
+        try {
+            return jwt.decode(token) as JwtPayload
+        } catch (error) {
+            console.error("Refresh token verification failed:", error);
+            return null;
+        }}
 }

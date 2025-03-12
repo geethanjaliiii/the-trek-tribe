@@ -9,6 +9,8 @@ import { IRefreshTokenRepository } from "../../domain/repositories/auth/refresh-
 import { RefreshTokenRepository } from "../database/repositories/auth/refresh-token-repository";
 import { TokenRepository } from "../database/repositories/redis/redis-token.repository";
 import { ITokenRepository } from "../../domain/repositories/redis/tokenRepository.interface";
+import { IVerificationRequestRepository } from "../../domain/repositories/verificationRequest/verificatioReqRepository.interface";
+import VerificationRequestRepository from "../database/repositories/verificationRequest/verificationRequest.repository";
 export class RepositoryRegisrty {
   static registerRepositories(): void {
     container.register<IAdminRepository>("IAdminRepository", {
@@ -29,6 +31,11 @@ export class RepositoryRegisrty {
 
     container.register<TokenRepository>("ITokenRepository",{
         useClass: TokenRepository
+    });
+
+    container.register<IVerificationRequestRepository>("IVerificationRequestRepository",{
+      useClass: VerificationRequestRepository
     })
+  
   }
 }

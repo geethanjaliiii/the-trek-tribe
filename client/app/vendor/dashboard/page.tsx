@@ -8,7 +8,8 @@ import { isVendorVerified } from "@/features/auth/authSlice"
 
 export default function VendorDashboardPage() {
   // In a real app, this would be fetched from your API
-  const isVerified = useSelector(isVendorVerified)
+  const isVerified = useSelector(isVendorVerified);
+  
 
   return (
     <div className="space-y-6">

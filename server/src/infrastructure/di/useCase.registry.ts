@@ -33,6 +33,18 @@ import { LoginUserUseCase } from "../../usecases/auth/login-user.usecase";
 import { ILoginUserUseCase } from "../../usecases/interface/auth/ILoginUserUsecase.interface";
 import { IRequestVerificationUsecase } from "../../usecases/interface/vendor/IVerify-vendor-Usecase.interface";
 import { RequestVerificationUseCase } from "../../usecases/verificationRequest/verify-vendor.usecase";
+import { IGetAllUserUsecase } from "../../usecases/interface/admin/IGetAllUserUsecase.interface";
+import { GetAllUserUseCase } from "../../usecases/admin/get-all-users.usecase";
+import { IRefrshTokenUsecase } from "../../usecases/interface/auth/IRefreshTokenUseCase";
+import { RefreshTokenUsecase } from "../../usecases/auth/refreshToken.usecase";
+import { IChangeUserStatusUsecase } from "../../usecases/interface/admin/IChangeUserStatusUsecase.interface";
+import { ChangeUserStatusUseCase } from "../../usecases/admin/change-user-status.usecase";
+import { ClientGoogleLoginStrategy } from "../../usecases/auth/login-strategies/client-google-login.strategy";
+import { VendorGoogleLoginStrategy } from "../../usecases/auth/login-strategies/vendor-googlr-login.strategy";
+import { IGoogleUseCase } from "../../usecases/interface/auth/IGoogleUsecase.interface";
+import { GoogleUsecase } from "../../usecases/auth/google.usecase";
+import { IGetVendorDetailsUsecase } from "../../usecases/interface/vendor/IGetVendorDetails";
+import { GetVendorDetailsUsecase } from "../../usecases/vendor/GetVendorDetails.usecase";
 
 export class UseCaseRegistry {
     static registerUseCases(): void {
@@ -110,7 +122,34 @@ export class UseCaseRegistry {
 
         container.register<IRequestVerificationUsecase>("IRequestVerificationUsecase",{
             useClass:RequestVerificationUseCase
+        });
+
+        container.register<IGetAllUserUsecase>("IGetAllUserUsecase",{
+            useClass:GetAllUserUseCase
+        });
+
+        container.register<IRefrshTokenUsecase>("IRefrshTokenUsecase",{
+            useClass:RefreshTokenUsecase
         })
+        container.register<IChangeUserStatusUsecase>("IChangeUserStatusUsecase",{
+            useClass:ChangeUserStatusUseCase
+        })
+        container.register<ILoginStrategy>("ClientGoogleLoginStrategy",{
+            useClass:ClientGoogleLoginStrategy
+        })
+        container.register<ILoginStrategy>("VendorGoogleLoginStrategy",{
+            useClass:VendorGoogleLoginStrategy
+        })
+        container.register<IGoogleUseCase>(
+            'IGoogleUseCase',{
+                useClass:GoogleUsecase
+            }
+        )
+        container.register<IGetVendorDetailsUsecase>(
+            'IGetVendorDetailsUsecase',{
+                useClass:GetVendorDetailsUsecase
+            }
+        )
 
     }
 }

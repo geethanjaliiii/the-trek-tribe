@@ -3,7 +3,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { client } from "../../infrastructure/cache/redis.client";
 import { ERROR_MESSAGES, HTTP_STATUS } from "../../shared/utils/constants";
 import { JWTService } from "../../infrastructure/services/jwt/JWTService";
-
+const tokenService = new JWTService();
 export interface CustomJWTPayload extends JwtPayload {
   id: string;
   email: string;
@@ -19,22 +19,49 @@ export interface CustomRequest extends Request {
 const extractToken = (
   req: Request
 ): { access_token: string; refresh_token: string } | null => {
-  const pathSegment = req.path.split("/");
+  const pathSegment = req.path.split("/").filter((segment) => segment);
   console.log("pathsegment", pathSegment);
+  if (pathSegment.includes("admin") || pathSegment.includes("_ad")) {
+    if (req.cookies["super_admin_refresh_token"]) {
+      return {
+        access_token: req.cookies[`super_admin_access_token`] || null,
+        refresh_token: req.cookies[`super_admin_refresh_token`] || null,
+      };
+    }
 
-  const privateRouteIndex = pathSegment.indexOf("");
-
-  if (privateRouteIndex !== -1 && pathSegment[privateRouteIndex + 1]) {
-    const userType = pathSegment[privateRouteIndex + 1];
+    // Fall back to admin tokens if super_admin tokens aren't present
+    if (req.cookies["admin_refresh_token"]) {
+      return {
+        access_token: req.cookies["admin_access_token"]||null,
+        refresh_token: req.cookies["admin_refresh_token"] || null,
+      };
+    }
+  } else if (req.cookies["vendor_refresh_token"]) {
     return {
-      access_token: req.cookies[`${userType}_access_token`] || null,
-      refresh_token: req.cookies[`${userType}_refresh_token`] || null,
+      access_token: req.cookies["vendor_access_token"]||null,
+      refresh_token: req.cookies["vendor_refresh_token"] || null,
+    };
+  } else if (req.cookies["client_refresh_token"]) {
+    return {
+      access_token: req.cookies["client_access_token"],
+      refresh_token: req.cookies["client_refresh_token"] || null,
     };
   }
+  console.log("No valid tokens found in cookies");
   return null;
+
+  // if (privateRouteIndex !== -1 && pathSegment[privateRouteIndex + 1]) {
+  //   const userType = pathSegment[privateRouteIndex + 1];
+  //   return {
+  //     access_token: req.cookies[`${userType}_access_token`] || null,
+  //     refresh_token: req.cookies[`${userType}_refresh_token`] || null,
+  //   };
+  // }
+  // return null;
 };
 
 const isBlackListed = async (token: string): Promise<boolean> => {
+  if (!token) return false;
   const result = await client.get(token);
   return result === "blacklisted";
 };
@@ -46,33 +73,40 @@ export const verifyAuth = async (
 ) => {
   try {
     const token = extractToken(req);
-    if (!token) {
+    console.log("token extracted", token);
+
+    if (!token || !token.refresh_token) {
       console.log("no token");
       res.status(HTTP_STATUS.UNAUTHORIZED).json({
         message: ERROR_MESSAGES.UNAUTHORIZED_ACCESS,
       });
       return;
     }
-    if(await isBlackListed(token.access_token)){
-      console.log('token is blacklisted');
-      res.status(HTTP_STATUS.FORBIDDEN).json({ message: "Token is blacklisted" });
+    if (token.access_token && (await isBlackListed(token.access_token))) {
+      console.log("access token is blacklisted");
+      res
+        .status(HTTP_STATUS.FORBIDDEN)
+        .json({ message: "Token is blacklisted" });
       return;
     }
-    const tokenService =new JWTService()
-    const user = tokenService.verifyAccessToken(token.access_token) as CustomJWTPayload;
-    if(!user || !user.id){
-      res.status(HTTP_STATUS.UNAUTHORIZED)
-      .json({ message: ERROR_MESSAGES.UNAUTHORIZED_ACCESS });
-    return;
+ 
+    const user = tokenService.verifyAccessToken(
+      token.access_token
+    ) as CustomJWTPayload;
+    if (!user || !user.id) {
+      res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .json({ message: ERROR_MESSAGES.UNAUTHORIZED_ACCESS });
+      return;
     }
     (req as CustomRequest).user = {
       ...user,
-      access_token:token.access_token,
-      refresh_token:token.refresh_token
+      access_token: token.access_token,
+      refresh_token: token.refresh_token,
     };
     next();
-  } catch (error:any)
-   {
+  } catch (error: any) {
+    console.log("auth error", error);
     if (error.name === "TokenExpiredError") {
       console.log("token is expired is worked");
       res
@@ -89,21 +123,55 @@ export const verifyAuth = async (
   }
 };
 
-export const authorizeRole =(allowedRoles: string[])=>{
-  return(req:Request, res:Response,next:NextFunction)=>{
-    const user =(req as CustomRequest).user;
+export const authorizeRole = (allowedRoles: string[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const user = (req as CustomRequest).user;
 
-    if(!user || !allowedRoles.includes(user.role)){
+    if (!user || !allowedRoles.includes(user.role)) {
       res.status(HTTP_STATUS.FORBIDDEN).json({
         message: ERROR_MESSAGES.NOT_ALLOWED,
         userRole: user ? user.role : "None",
       });
       return;
     }
-    next()
+    next();
+  };
+};
+
+export const decodeToken =async (
+  req:Request,res:Response,next:NextFunction
+)=>{
+  try {
+    const token = extractToken(req);
+    if(!token){
+      console.log('no token while decoding');
+      res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .json({ message: ERROR_MESSAGES.UNAUTHORIZED_ACCESS });
+      return;
+    }
+    if (await isBlackListed(token.access_token)) {
+      console.log("token is black listed is worked");
+      res
+        .status(HTTP_STATUS.FORBIDDEN)
+        .json({ message: "Token is blacklisted" });
+      return;
+    }
+    const user = tokenService.decodeAccessToken(token?.access_token);
+    console.log("decoded", user);
+    (req as CustomRequest).user = {
+      id: user?.id,
+      email: user?.email,
+      role: user?.role,
+      access_token: token.access_token,
+      refresh_token: token.refresh_token,
+    };
+    next();
+  } catch (error) {
+    console.log('token decode middleware error',error);
+    
   }
 }
-
 // import { Request, Response, NextFunction } from "express";
 // import jwt from "jsonwebtoken";
 // import { CustomError } from "../../shared/utils/CustomError";

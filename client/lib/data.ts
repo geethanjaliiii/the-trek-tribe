@@ -1,3 +1,6 @@
+import { vendorBusinessSchema, vendorDocumentSchema, vendorLocationSchema, vendorPersonalSchema } from "@/schemas/vendor/vendorSchema"
+import * as Yup from "yup";
+
 // Demo data for the admin panel
 export const pendingVendorRequests = [
     {
@@ -137,4 +140,59 @@ export const pendingVendorRequests = [
     socialMediaLinks: ["facebook.com/adventuretrek", "instagram.com/adventuretrek"],
   }
   
-  
+    export const steps = [
+      {
+        id: "personal",
+        name: "Personal Information",
+        fields: ["fullName", "email", "phoneNumber", "additionalContactNumber"],
+        validationSchema: vendorPersonalSchema,
+      },
+      {
+        id: "business",
+        name: "Business Information",
+        fields: [
+          "businessName",
+          "businessDescription",
+          "registrationNumber",
+          "businessType",
+        ],
+        validationSchema: vendorBusinessSchema,
+      },
+      {
+        id: "location",
+        name: "Location & Contact",
+        fields: ["address", "city", "state", "country", "pincode", "website"],
+        validationSchema: vendorLocationSchema,
+      },
+      {
+        id: "documents",
+        name: "Document Verification",
+        fields: ["businessDocuments", "ownerIdProof", "businessLogo"],
+        validationSchema: vendorDocumentSchema,
+      },
+      {
+        id: "review",
+        name: "Review & Submit",
+        fields: [],
+        validationSchema: Yup.object({}),
+      },
+    ];
+
+      export const businessTypes = [
+        "Tour Operator",
+        "Travel Agency",
+        "Hotel/Resort",
+        "Transportation Provider",
+        "Activity Provider",
+        "Other",
+      ];
+    
+      export const countries = [
+        "India",
+        "United States",
+        "United Kingdom",
+        "Australia",
+        "Canada",
+        "Singapore",
+        "Other",
+      ];

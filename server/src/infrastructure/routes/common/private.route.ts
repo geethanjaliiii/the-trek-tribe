@@ -1,3 +1,4 @@
+import { AdminRoutes } from "../admin/admin.route";
 import { BaseRoute } from "../baseRoute"
 import VendorRoutes from "../vendor/vendor.route";
 
@@ -9,5 +10,7 @@ constructor(){
 protected initializeRoutes(): void {
     // this.router.use('/_ad',new AdminRoutes().router)
     this.router.use('/_ve',new VendorRoutes().router);
+
+    this.router.use('/_ad',new AdminRoutes().router)
 }
 }

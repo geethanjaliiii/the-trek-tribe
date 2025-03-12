@@ -20,4 +20,5 @@ export interface IVendorRepository {
     id: ObjectId,
     data: Partial<IVendor>
   ): Promise<void>;
+ findByIdAndUpdateStatus(id: any, status: string): Promise<void> 
 }

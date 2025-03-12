@@ -28,5 +28,11 @@ export class VendorRepository implements IVendorRepository{
    async updateVendorProfileById(id: ObjectId, data: Partial<IVendor>): Promise<void> {
         await VendorModel.findByIdAndUpdate(id,{$set: data})
     }
-
+    async findByIdAndUpdateStatus(id: any, status: string): Promise<void> {
+        await VendorModel.findByIdAndUpdate(id, {
+          $set: {
+            status: status,
+          },
+        });
+      }
 }

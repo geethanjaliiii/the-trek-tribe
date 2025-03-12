@@ -35,6 +35,7 @@ export class Server {
         })
         this._app.use('/api/v_1/auth', new AuthRoutes().router);
         this._app.use('/api/v_1/_pvt',new PrivateRoutes().router);
+        
         this._app.use('*',notFound);
     }
 

@@ -1,49 +1,31 @@
-// import { Request, Response } from "express";
-// import jwt from "jsonwebtoken";
-// import { CustomError } from "../../../shared/utils/CustomError";
-// import { HTTP_STATUS, ERROR_MESSAGES } from "../../../shared/utils/constants";
+import { inject, injectable } from "tsyringe";
+import { IRefrshTokenUsecase } from "../../../usecases/interface/auth/IRefreshTokenUseCase";
+import { CustomRequest } from "../../middlewares/authentication.middleware";
+import { Request, Response } from "express";
+import { clearAuthCookies, updateCookieWithAccessToken } from "../../../shared/utils/cookieHelper";
+import { ERROR_MESSAGES, HTTP_STATUS, SUCCESS_MESSAGES } from "../../../shared/utils/constants";
 
-// export class RefreshTokenController {
-//   async handle(req: Request, res: Response): Promise<void> {
-//     try {
-//       const refreshToken = req.cookies.refreshToken;
-//       if (!refreshToken) {
-//         throw new CustomError("Refresh token required", HTTP_STATUS.UNAUTHORIZED);
-//       }
-
-//       // Verify refresh token
-//       const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || "your-refresh-secret") as { id: string; email: string };
-
-//       // Generate new access token
-//       const newAccessToken = jwt.sign(
-//         { id: decoded.id, email: decoded.email },
-//         process.env.JWT_SECRET || "your-access-secret",
-//         { expiresIn: "15m" }
-//       );
-
-//       // Set new access token in cookie
-//       res.setHeader(
-//         "Set-Cookie",
-//         cookie.serialize("accessToken", newAccessToken, {
-//           httpOnly: true,
-//           secure: process.env.NODE_ENV === "production",
-//           sameSite: "strict",
-//           maxAge: 15 * 60,
-//           path: "/",
-//         })
-//       );
-
-//       res.status(HTTP_STATUS.OK).json({ success: true, message: "Token refreshed" });
-//     } catch (error) {
-//       if (error instanceof jwt.TokenExpiredError) {
-//         res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: false, message: "Refresh token expired" });
-//         return;
-//       }
-//       if (error instanceof CustomError) {
-//         res.status(error.statusCode).json({ success: false, message: error.message });
-//         return;
-//       }
-//       res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, message: ERROR_MESSAGES.SERVER_ERROR });
-//     }
-//   }
-// }
+@injectable()
+export class RefreshTokenController {
+constructor(@inject("IRefrshTokenUsecase")private refreshTokenUsecase:IRefrshTokenUsecase){}
+async handle(req:Request, res:Response):Promise<void>{
+    try {
+        const refreshToken =(req as CustomRequest).user.refresh_token;
+        console.log(refreshToken,'refreshToken');
+        
+        const newToken = this.refreshTokenUsecase.execute(refreshToken);
+        const accessTokenName = `${newToken.role}_access_token`;
+        updateCookieWithAccessToken(res,newToken.accessToken,accessTokenName);
+        res.status(HTTP_STATUS.OK).json({ success: true, message: SUCCESS_MESSAGES.OPERATION_SUCCESS })
+    } catch (error) {
+        clearAuthCookies(
+            res,
+            `${(req as CustomRequest).user.role}_access_token`,
+            `${(req as CustomRequest).user.role}_refresh_token`
+          );
+          res
+            .status(HTTP_STATUS.UNAUTHORIZED)
+            .json({ message: ERROR_MESSAGES.INVALID_TOKEN });
+        }
+    }
+}

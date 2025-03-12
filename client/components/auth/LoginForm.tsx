@@ -14,6 +14,7 @@ import axiosInstance from "@/lib/axios";
 import { Eye, EyeIcon } from "lucide-react";
 import { useLoginMutation } from "@/features/api/auth/apiAuthSlice";
 import { setUserDetails } from "@/features/auth/authSlice";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 interface LoginFormProps {
   role: TRoles;
@@ -43,8 +44,8 @@ function LoginForm({ role }: LoginFormProps) {
           role === "client"
             ? "/"
             : role === "vendor"
-            ? "/vendor"
-            : "/admin";
+            ? "/vendor/dashboard"
+            : "/admin/dashboard";
         router.push(redirectPath);
       } catch (error) {
         toast.error(`Login failed for ${role}. Check your credentials.`);
@@ -57,7 +58,7 @@ function LoginForm({ role }: LoginFormProps) {
 
   if (isAuthenticated) {
     const redirectPath =
-      role === "client" ? "/" : role === "vendor" ? "/vendor" : "/admin";
+      role === "client" ? "/" : role === "vendor" ? "/vendor/dashboard" : "/admin/dashboard";
     router.push(redirectPath);
     return null;
   }
@@ -130,8 +131,12 @@ function LoginForm({ role }: LoginFormProps) {
           >
             Sign up
           </Link>
+          <div className="p-2">OR</div>
+          {(role!='super_admin'&&role!='admin') &&  <GoogleLoginButton role={role}/>}
         </p>
       </div>
+     
+     
     </div>
   );
 }

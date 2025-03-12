@@ -6,6 +6,9 @@ import { VerificationRequestModel } from "../../models/verificationRequest.model
 
 @injectable()
 export default class VerificationRequestRepository implements IVerificationRequestRepository {
+  async find(options?: { status?: string; limit?: number; offset?: number; }): Promise<Partial<IVerificationRequest>[]> {
+      throw new Error("Method not implemented.");
+   }
    async  create(data: IVerificationRequest): Promise<IVerificationRequest> {
       return await VerificationRequestModel.create(data)
     }
@@ -18,5 +21,6 @@ export default class VerificationRequestRepository implements IVerificationReque
     async  update(requestId: ObjectId, updates: Partial<IVerificationRequest>): Promise<void> {
        await VerificationRequestModel.findByIdAndUpdate(requestId,{$set:updates})
     }
+   
 
 }

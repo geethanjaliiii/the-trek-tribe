@@ -8,6 +8,7 @@ export const errorHandler =(
     res: Response,
     next: NextFunction
 )=>{
+    console.error('errro middleware',err)
     let statusCode = HTTP_STATUS.INTERNAL_SERVER_ERROR
     let message = "Something Went wrong"
 

@@ -27,5 +27,11 @@ export class ClientRepository implements IClientRepository {
     async updateClientProfileById(id: string, data: Partial<IClient>): Promise<void> {
         await ClientModel.findByIdAndUpdate(id,{$set: data})
     }
-
+    async findByIdAndUpdateStatus(id: any, status: string): Promise<void> {
+        await ClientModel.findByIdAndUpdate(id, {
+          $set: {
+            status: status,
+          },
+        });
+      }
 }

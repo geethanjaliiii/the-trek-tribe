@@ -3,11 +3,11 @@ import { IBaseUser } from "./baseUser.entity";
 
 export interface IVendor extends IBaseUser{
     
-    vendorId: string;
+    vendorId?: string;
   //  role: UserRoles.VENDOR;
   additionalContactNumber?: string|null;
-    businessName: string;
-    businessDescription: string;
+    businessName?: string;
+    businessDescription?: string;
     registrationNumber?: string;
     businessType?: string;
 
@@ -27,5 +27,6 @@ export interface IVendor extends IBaseUser{
 
      // 🔹 Account & Role Management
     isVerified: boolean;
-    accountStatus:"pending" |"approved" | "rejected"
+    status?:'blocked'|'active';
+    verificationStatus?:"pending" |"approved" | "rejected"
 }

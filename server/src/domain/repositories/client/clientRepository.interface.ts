@@ -16,6 +16,7 @@ export interface IClientRepository {
   
   findByIdAndUpdatePassword(id: string, password: string): Promise<void>;
   
+  findByIdAndUpdateStatus(id: any, status: string): Promise<void>
   updateClientProfileById(
     id: string,
     data: Partial<IClient>
