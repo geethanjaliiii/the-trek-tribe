@@ -45,6 +45,13 @@ import { IGoogleUseCase } from "../../usecases/interface/auth/IGoogleUsecase.int
 import { GoogleUsecase } from "../../usecases/auth/google.usecase";
 import { IGetVendorDetailsUsecase } from "../../usecases/interface/vendor/IGetVendorDetails";
 import { GetVendorDetailsUsecase } from "../../usecases/vendor/GetVendorDetails.usecase";
+import { ForgetPasswordUsecase } from "../../usecases/auth/forget-password.usecase";
+import { IForgetPasswordUsecase } from "../../usecases/interface/auth/IForgetPasswordUsecase";
+import { IResetPasswordStrategy } from "../../usecases/interface/auth/IResetPasswordStrategy.interface";
+import { ClientResetPasswordStrategy } from "../../usecases/auth/reset-password-strategy.ts/client-reset-password.strategy";
+import { VendorResetPasswordStrategy } from "../../usecases/auth/reset-password-strategy.ts/vendor-reset-password.strategy";
+import { IResetPasswordUsecase } from "../../usecases/interface/auth/IResetPasswordUsecase.interface";
+import { ResetPasswordUsecase } from "../../usecases/auth/IResetPasswordUsecase";
 
 export class UseCaseRegistry {
     static registerUseCases(): void {
@@ -150,6 +157,21 @@ export class UseCaseRegistry {
                 useClass:GetVendorDetailsUsecase
             }
         )
+        container.register<IForgetPasswordUsecase>(
+            'IForgetPasswordUsecase',{
+                useClass:ForgetPasswordUsecase
+            });
+            container.register<IResetPasswordStrategy>('ClientResetPasswordStrategy',{
+                useClass:ClientResetPasswordStrategy
+            });
+    
+            container.register<IResetPasswordStrategy>("VendorResetPasswordStrategy",{
+                useClass:VendorResetPasswordStrategy
+            });
+            container.register<IResetPasswordUsecase>("IResetPasswordUsecase",{
+                useClass:ResetPasswordUsecase
+            });
+    
 
     }
 }

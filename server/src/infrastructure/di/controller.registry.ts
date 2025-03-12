@@ -9,6 +9,8 @@ import { RefreshTokenController } from "../../interface-adapters/controllers/aut
 import { ChangeUserStatusController } from "../../interface-adapters/controllers/admin/change-user-status.controller";
 import { GoogleController } from "../../interface-adapters/controllers/auth/google.controller";
 import { GetVendorDetailsController } from "../../interface-adapters/controllers/vendor/get-vendor-details.controller";
+import { ForgetPasswordController } from "../../interface-adapters/controllers/auth/forget-password.controller";
+import { ResetPasswordController } from "../../interface-adapters/controllers/auth/reset-password.controller";
 
 export class ControllerRegistry {
     static registerControllers(): void {
@@ -44,6 +46,12 @@ export class ControllerRegistry {
         })
         container.register("GetVendorDetailsController",{
             useClass:GetVendorDetailsController
+        })
+        container.register("ForgetPasswordController",{
+            useClass:ForgetPasswordController
+        })
+        container.register("ResetPasswordController",{
+            useClass:ResetPasswordController
         })
         //......
     }

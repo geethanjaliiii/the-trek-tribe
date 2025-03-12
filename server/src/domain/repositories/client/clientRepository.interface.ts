@@ -1,5 +1,6 @@
 import { injectable } from "tsyringe";
 import { IClient } from "../../entities/client.entity";
+import { ObjectId } from "mongoose";
 
 export interface IClientRepository {
   save(data: Partial<IClient>): Promise<IClient>;
@@ -14,9 +15,9 @@ export interface IClientRepository {
   
   findByEmail(email: string): Promise<IClient | null>;
   
-  findByIdAndUpdatePassword(id: string, password: string): Promise<void>;
+  findByIdAndUpdatePassword(id: ObjectId, password: string): Promise<void>;
   
-  findByIdAndUpdateStatus(id: any, status: string): Promise<void>
+  findByIdAndUpdateStatus(id: any, status: string): Promise<void | any>
   updateClientProfileById(
     id: string,
     data: Partial<IClient>

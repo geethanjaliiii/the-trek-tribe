@@ -11,6 +11,8 @@ import { RefreshTokenController } from "../../interface-adapters/controllers/aut
 import { ChangeUserStatusController } from "../../interface-adapters/controllers/admin/change-user-status.controller";
 import { GoogleController } from "../../interface-adapters/controllers/auth/google.controller";
 import { GetVendorDetailsController } from "../../interface-adapters/controllers/vendor/get-vendor-details.controller";
+import { ForgetPasswordController } from "../../interface-adapters/controllers/auth/forget-password.controller";
+import { ResetPasswordController } from "../../interface-adapters/controllers/auth/reset-password.controller";
 
 DependencyInjection.registerAll();
 
@@ -33,3 +35,5 @@ export const changeUserStatusController = container.resolve(ChangeUserStatusCont
 export const googleController = container.resolve(GoogleController)
 
 export const getVendorDetailsController = container.resolve(GetVendorDetailsController)
+export const forgetPasswordController = container.resolve(ForgetPasswordController)
+export const resetPasswordController = container.resolve(ResetPasswordController)

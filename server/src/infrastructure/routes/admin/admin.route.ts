@@ -5,6 +5,7 @@ import {
   verifyAuth,
 } from "../../../interface-adapters/middlewares/authentication.middleware";
 import {
+  changeUserStatusController,
   getAllUsersController,
   refreshTokenController,
 } from "../../di/resolver";
@@ -31,11 +32,11 @@ export class AdminRoutes extends BaseRoute {
       }
     );
     this.router.patch(
-      "/admin/user/status",
+      "/admin/users/status",
       verifyAuth,
       authorizeRole(["admin", "super_admin"]),
       (req: Request, res: Response) => {
-        refreshTokenController.handle(req, res);
+        changeUserStatusController.handle(req, res);
       }
     );
   }

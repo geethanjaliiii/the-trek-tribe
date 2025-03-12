@@ -27,7 +27,7 @@ export class ChangeUserStatusUseCase implements IChangeUserStatusUsecase {
         const newStatus = user.status === "active" ? "blocked" : "active";
   
         await this.clientRepository.findByIdAndUpdateStatus(userId, newStatus);
-  
+    
         if (newStatus === "blocked") {
           await client.set(`user_status:client:${userId}`, newStatus, {
             EX: 3600,

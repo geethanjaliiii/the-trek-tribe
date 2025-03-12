@@ -21,12 +21,14 @@ export class ChangeUserStatusController {
             console.log("user type => ", userType);
             console.log("user id => ", userId);
       
-            await this.changeUserStatusUseCase.execute(userType, userId);
-      
+           await this.changeUserStatusUseCase.execute(userType, userId);
+          console.log('status updated');
+          
             res
               .status(HTTP_STATUS.OK)
               .json({ success: true, message: SUCCESS_MESSAGES.UPDATE_SUCCESS });
           } catch (error) {
+            console.log(error,'error updating status');
             if (error instanceof ZodError) {
               const errors = error.errors.map((err) => ({
                 message: err.message,
@@ -45,7 +47,7 @@ export class ChangeUserStatusController {
                 .json({ success: false, message: error.message });
               return;
             }
-            console.log(error);
+           
             res
               .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
               .json({ success: false, message: ERROR_MESSAGES.SERVER_ERROR });

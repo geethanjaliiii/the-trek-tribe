@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { BaseRoute } from "../baseRoute";
 import {
+  forgetPasswordController,
   googleController,
   loginUserController,
   refreshTokenController,
   regsiterUserController,
+  resetPasswordController,
   sendEmailController,
   verifyOTPController,
 } from "../../di/resolver";
@@ -35,6 +37,12 @@ export class AuthRoutes extends BaseRoute {
     });
     this.router.post('/google-auth',(req:Request, res:Response)=>{
       googleController.handle(req,res)
+    });
+    this.router.post('/forget-password',(req:Request, res:Response)=>{
+      forgetPasswordController.handle(req,res)
+    });
+    this.router.post('/reset-password',(req:Request, res:Response)=>{
+      resetPasswordController.handle(req,res)
     });
   }
 }
